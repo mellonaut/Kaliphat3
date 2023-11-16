@@ -23,11 +23,11 @@
       apt:
         name: net-tools
 
-    - name: Create mellonaut user
-      lineinfile:
-        path: /etc/sudoers
-        line: "mellonaut ALL=(ALL) NOPASSWD:ALL"
-        state: present
+    # - name: Create mellonaut user
+    #   lineinfile:
+    #     path: /etc/sudoers
+    #     line: "mellonaut ALL=(ALL) NOPASSWD:ALL"
+    #     state: present
 
     - name: Install apt-transport-https, ca-certificates, and gnupg
       apt:
@@ -105,26 +105,39 @@
     - name: Install mitm6
       command: pip install mitm6
 
-    - name: Install PwnCat
-      command:
-        - cd /opt/pwncat
-        - python3 setup.py install
-
-    - name: Create PwnDrop directory
-      file:
-        path: /pwndrop
-        state: directory
-
-    - name: Download and install PwnDrop
-      get_url:
-        url: https://github.com/kgretzky/pwndrop/releases/download/1.0.1/pwndrop-linux-amd64.tar.gz
-        dest: /pwndrop
-
-    - name: Extract PwnDrop
-      command: tar -zxvf /pwndrop/pwndrop-linux-amd64.tar.gz -C /pwndrop
-
-    - name: Start PwnDrop
-      command: /pwndrop/pwndrop-linux-amd64 -c /p
-
     - name: Download DeepCE
       command: curl -sL https://github.com/stealthcopter/deepce/raw/main/deepce.sh -o deepce.sh
+
+    - name: Install Nuclei
+      command: go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest 
+
+    - name: Install Nuclei Templates
+      command: git clone https://github.com/projectdiscovery/nuclei-templates.git   
+   
+    - name: Install crowbar
+      apt:
+        name: crowbar   
+
+  
+
+
+          # - name: Install PwnCat
+    #   command:
+    #     - cd /opt/pwncat
+    #     - python3 setup.py install
+
+    # - name: Create PwnDrop directory
+    #   file:
+    #     path: /pwndrop
+    #     state: directory
+
+    # - name: Download and install PwnDrop
+    #   get_url:
+    #     url: https://github.com/kgretzky/pwndrop/releases/download/1.0.1/pwndrop-linux-amd64.tar.gz
+    #     dest: /pwndrop
+
+    # - name: Extract PwnDrop
+    #   command: tar -zxvf /pwndrop/pwndrop-linux-amd64.tar.gz -C /pwndrop
+
+    # - name: Start PwnDrop
+    #   command: /pwndrop/pwndrop-linux-amd64 -c /p
