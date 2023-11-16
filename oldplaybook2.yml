@@ -1,0 +1,169 @@
+---
+- name: Install and configure tools
+  hosts: local
+  connection: local
+  become: yes
+  tasks:
+    - name: Download and install PwnDrop
+      get_url:
+        url: https://github.com/kgretzky/pwndrop/releases/download/1.0.1/pwndrop-linux-amd64.tar.gz
+        dest: /pwndrop
+
+    - name: Extract PwnDrop
+      command: tar -zxvf /pwndrop/pwndrop-linux-amd64.tar.gz -C /pwndrop
+
+    - name: Start PwnDrop
+      command: /pwndrop/pwndrop-linux-amd64 -c /pwndrop/config.json &
+
+    - name: Git clone Certipy
+      git:
+        repo: https://github.com/ly4k/Certipy.git
+        dest: /etc/ansible/Certipy
+
+    - name: Install Certipy
+      command: pip3 install /etc/ansible/Certipy
+
+    - name: Install mitm6
+      command: pip install mitm6
+
+    # - name: Git clone Pretender
+    #   git:
+    #     repo: https://github.com/RedTeamPentesting/pretender.git
+    #     dest: /etc/ansible/pretender
+
+    # - name: Build and install Pretender
+    #   command:
+    #     - cd /etc/ansible/pretender
+    #     - go build
+    #     - mv pretender /usr/bin
+
+    # - name: Download CrackMapExec
+    #   command: curl -LJO https://github.com/Porchetta-Industries/CrackMapExec/releases/download/v5.3.0/cme-ubuntu-latest-3.10.zip|sudo unzip -d /usr/bin/
+    #   # args:
+    #   #   creates: /usr/bin/cme-ubuntu-latest-3.10.zip
+    
+    # - name: Unzip CrackMapExec
+    #   command: unzip /usr/bin/cme-ubuntu-latest-3.10.zip -d /usr/bin/
+    #   args:
+    #     creates: /usr/bin/CrackMapExec
+    
+    # - name: Remove Zip file
+    #   file:
+    #     path: /usr/bin/cme-ubuntu-latest-3.10.zip
+    #     state: absent
+
+    # - name: Install cmedb
+    #   unarchive:
+    #     src: https://github.com/Porchetta-Industries/CrackMapExec/releases/download/v5.3.0/cmedb-ubuntu-latest-3.10.zip
+    #     dest: /usr/bin
+    #     remote_src: yes
+    # - name: Install pipx and ensurepath
+    #   command:
+    #     - python3 -m pip install pipx
+    #     - python3 -m pipx ensurepath
+    # - name: Git clone Pretender
+    #   git:
+    #     repo: https://github.com/RedTeamPentesting/pretender.git
+    #     dest: /etc/ansible/pretender
+    # - name: Build and install Pretender
+    #   command:
+    #     - cd /etc/ansible/pretender
+    #     - go build
+    #     - mv pretender /usr/bin
+
+
+    
+
+
+
+# - name: Download and install cmedb
+#   get_url:
+#     url: https://github.com/Porchetta-Industries/CrackMapExec/releases/download/v5.3.0/cmedb-ubuntu-latest-3.10.zip
+#     dest: /usr/bin
+#   unarchive:
+#     src: /usr/bin/cmedb-ubuntu-latest-3.10.zip
+#     dest: /usr/bin
+#     remote_src: yes
+
+# - name: Install Python3-pip, pipx, and python3-venv
+#   apt:
+#     name:
+#       - python3-pip
+#       - pipx
+#       - python3-venv
+
+# - name: Install pipx and ensurepath
+#   command:
+#     - python3 -m pip install pipx
+#     - python3 -m pipx ensurepath
+
+
+
+# - name: Install Cherrytree
+#   apt:
+#     name: cherrytree
+
+# - name: Git clone PwnCat
+#   git:
+#     repo: https://github.com/calebstewart/pwncat.git
+#     dest: /opt/pwncat
+
+# - name: Install PwnCat
+#   command:
+#     - cd /opt/pwncat
+#     - python3 setup.py install
+
+# - name: Create PwnDrop directory
+#   file:
+#     path: /pwndrop
+#     state: directory
+
+
+
+# pip install git+https://github.com/blacklanternsecurity/trevorproxy
+# pip install git+https://github.com/blacklanternsecurity/trevorspray
+
+
+       
+    # - name: Configure firewall rules
+    #   command: firewall-cmd --zone=public --add-port=3000/tcp --permanent
+    #   become: yes
+       
+    # - name: Reload firewall rules
+    #   command: firewall-cmd --reload
+    #   become: yes
+       
+    # - name: Verify PwnDrop is Running
+    #   command: curl http://localhost:3000/ping
+    #   register: pwndrop_status
+    #   failed_when: "'pong' not in pwndrop_status.stdout"
+       
+    # - name: Stop, install, start and check status of PwnDrop, stop again
+    #   command:
+    #     - /pwndrop/pwndrop stop
+    #     - /pwndrop/pwndrop install
+    #     - /pwndrop/pwndrop start
+    #     - /pwndrop/pwndrop status
+    #     - /pwndrop/pwndrop stop
+    # - name: Clone password_cracking_rules, Hob0Rules and SecLists
+    #   git:
+    #     repo: https://github.com/NotSoSecure/password_cracking_rules.git
+    #     dest: /opt/password_cracking_rules
+    #   git:
+    #     repo: https://github.com/praetorian-inc/Hob0Rules.git
+    #     dest: /opt/Hob0Rules
+    #   git:
+    #     repo: https://github.com/danielmiessler/SecLists.git
+    #     dest: /opt/SecLists
+    # - name: Clone Probable-Wordlists
+    #   git:
+    #     repo: https://github.com/berzerk0/Probable-Wordlists.git
+    #     dest: /opt/Probable-Wordlists        
+    # - name: Download corporate.rule
+    #   get_url:
+    #     url: https://raw.githubusercontent.com/sparcflow/HackLikeALegend/master/corporate.rule
+    #     dest: /opt/password_cracking_rules/corporate.rule
+    # - name: Download rockyou-30000.rule
+    #   get_url:
+    #     url: https://raw.githubusercontent.com/hashcat/hashcat/master/rules/rockyou-30000.rule
+    #     dest: /opt/password_cracking_rules/rockyou-30000.rule

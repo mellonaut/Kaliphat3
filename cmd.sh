@@ -1,0 +1,2 @@
+sudo ansible-playbook --connection=local --inventory 127.0.0.1 --limit 127.0.0.1 playbook.yml -i inventory.yml
+# sudo ansible-playbook --connection=local --inventory 127.0.0.1 --limit 127.0.0.1 playbook2.yml -i inventory.yml
